@@ -15,7 +15,11 @@ Consider your entire calibration document. What is the sum of all the calibratio
  */
 class Day01(private val calibrationPath: String) {
 
-  fun getCalibrationSum(): Int {
-    TODO()
+  fun getCalibrationSum() = FileLoader.readLines(calibrationPath) { calibrationValueOf(it) }.sum()
+
+  private fun calibrationValueOf(line: String): Int {
+    val tens = line.first { it.isDigit() }.digitToInt()
+    val units = line.last { it.isDigit() }.digitToInt()
+    return (tens * 10) + units
   }
 }
