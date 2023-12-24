@@ -7,7 +7,7 @@ class FileLoaderTest {
 
   @Test
   fun `it returns doc text`() {
-    val result = FileLoader.read("day01.example")
+    val result = FileLoader.readAsString(FILE_NAME)
 
     val expected = """
       1abc2
@@ -17,5 +17,18 @@ class FileLoaderTest {
     """.trimIndent()
 
     assertThat(result).isEqualTo(expected)
+  }
+
+  @Test
+  fun `it operates on each line`() {
+    val results = FileLoader.readLines(FILE_NAME) { it.first() }
+
+    assertThat(results).containsExactly(
+        '1', 'p', 'a', 't'
+    )
+  }
+
+  private companion object {
+    const val FILE_NAME = "day01.example"
   }
 }
