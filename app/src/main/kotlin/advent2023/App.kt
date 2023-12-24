@@ -1,4 +1,4 @@
-package advent
+package advent2023
 
 class App {
     val greeting: String

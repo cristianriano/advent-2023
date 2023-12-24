@@ -1,4 +1,4 @@
-package advent
+package advent2023
 
 import kotlin.test.Test
 import kotlin.test.assertNotNull
