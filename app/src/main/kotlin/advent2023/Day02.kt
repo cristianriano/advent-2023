@@ -12,23 +12,24 @@ Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
 If you add up the IDs of the games that would have been possible, you get 8.
  */
 class Day02(
-    private val fileLoader: FileLoader = ResourceFileLoader(),
-    private val maxRed: Int = 12,
-    private val maxGreen: Int = 13,
-    private val maxBlue: Int = 14
+  private val fileLoader: FileLoader = ResourceFileLoader(),
+  private val maxRed: Int = 12,
+  private val maxGreen: Int = 13,
+  private val maxBlue: Int = 14
 ) {
 
   fun possibleGamesSum(filePath: String): Int {
     val line = filePath
+    val isInvalidGame = line.split(";").any { isInvalidDraw(it) }
+    return if (isInvalidGame) 0 else extractNum(line, GAME_REGEX)
+  }
 
-    val drawnBlue = extractNum(line, BLUE_REGEX)
-    val drawnRed = extractNum(line, RED_REGEX)
+  private fun isInvalidDraw(draw: String): Boolean {
+    val drawnBlue = extractNum(draw, BLUE_REGEX)
+    val drawnRed = extractNum(draw, RED_REGEX)
+    val drawnGreen = extractNum(draw, GREEN_REGEX)
 
-    return if (drawnBlue > maxBlue || drawnRed > maxRed) {
-      0
-    } else {
-      extractNum(line, GAME_REGEX)
-    }
+    return drawnBlue > maxBlue || drawnRed > maxRed || drawnGreen > maxGreen
   }
 
   private fun extractNum(line: String, regex: Regex) = runCatching {
@@ -40,5 +41,6 @@ class Day02(
 
     val BLUE_REGEX = Regex("(\\d) blue")
     val RED_REGEX = Regex("(\\d) red")
+    val GREEN_REGEX = Regex("(\\d) green")
   }
 }
