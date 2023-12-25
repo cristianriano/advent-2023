@@ -29,7 +29,13 @@ class Day01Test {
 
   @Test
   fun `when it starts with a spelled number`() {
-    val calibrationSum = mockedDay01.getFixedSum("two65eightbkgqcsn91qxkfvg")
+    val calibrationSum = mockedDay01.getCalibrationSumWithSpells("two65eightbkgqcsn91qxkfvg")
     assertThat(calibrationSum).isEqualTo(21)
+  }
+
+  @Test
+  fun `when it has a spelled number but a number first`() {
+    val calibrationSum = mockedDay01.getCalibrationSumWithSpells("65twosn91qxk")
+    assertThat(calibrationSum).isEqualTo(61)
   }
 }
