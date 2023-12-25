@@ -26,4 +26,10 @@ class Day01Test {
     val calibrationSum = instance.getCalibrationSum("day01.example")
     assertThat(calibrationSum).isEqualTo(142)
   }
+
+  @Test
+  fun `when it starts with a spelled number`() {
+    val calibrationSum = mockedDay01.getFixedSum("two65eightbkgqcsn91qxkfvg")
+    assertThat(calibrationSum).isEqualTo(21)
+  }
 }

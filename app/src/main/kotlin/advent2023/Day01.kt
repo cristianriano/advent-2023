@@ -20,13 +20,31 @@ class Day01(private val fileLoader: FileLoader = ResourceFileLoader()) {
   fun getFixedSum(calibrationPath: String) : Int {
     val line = fileLoader.readLines(calibrationPath).first()
 
-    TODO()
+    return when (val finds = SPELLED_DIGIT_REGEX.find(line)) {
+      null -> calibrationValueOf(line)
+      else -> (finds.groups.first()!!.toSpelledDigit() * 10) + lastDigit(line)
+    }
   }
 
   private fun calibrationValueOf(line: String): Int {
     val tens = line.first { it.isDigit() }.digitToInt()
-    val units = line.last { it.isDigit() }.digitToInt()
+    val units = lastDigit(line)
     return (tens * 10) + units
+  }
+
+  private fun lastDigit(line: String) = line.last { it.isDigit() }.digitToInt()
+
+  private fun MatchGroup.toSpelledDigit() = when(this.value) {
+    "one" -> 1
+    "two" -> 2
+    "three" -> 3
+    "four" -> 4
+    "five" -> 5
+    "six" -> 6
+    "seven" -> 7
+    "eight" -> 8
+    "nine" -> 9
+    else -> throw NoSuchElementException("${this.value} is not a valid digit")
   }
 
   private companion object {
