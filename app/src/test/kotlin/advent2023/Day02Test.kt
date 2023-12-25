@@ -43,4 +43,28 @@ class Day02Test {
     val expectedSum = Day02().possibleGamesSum("day02.example")
     assertThat(expectedSum).isEqualTo(8)
   }
+
+  @Test
+  fun `it returns power of min cubes for a draw with all colors`() {
+    val expectedSum = mockedDay.powerOfMinCubes("Game 1: 3 blue, 4 red, 1 green")
+    assertThat(expectedSum).isEqualTo(12)
+  }
+
+  @Test
+  fun `it returns power of min cubes for a draw with some colors`() {
+    val expectedSum = mockedDay.powerOfMinCubes("Game 1: 3 blue")
+    assertThat(expectedSum).isEqualTo(3)
+  }
+
+  @Test
+  fun `it returns min cubes considering all draws`() {
+    val expectedSum = mockedDay.powerOfMinCubes("Game 1: 10 blue, 10 red; 20 red, 10 green, 5 blue; 30 green")
+    assertThat(expectedSum).isEqualTo(6000)
+  }
+
+  @Test
+  fun `it returns 2286 for example B`() {
+    val expectedSum = Day02().powerOfMinCubes("day02.example")
+    assertThat(expectedSum).isEqualTo(2286)
+  }
 }

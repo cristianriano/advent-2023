@@ -8,6 +8,7 @@ class Calendar {
 
     val day02 = Day02()
     printDay(2, day02.possibleGamesSum("day02"))
+    printDay(2, day02.powerOfMinCubes("day02"))
   }
 
   private fun <T> printDay(day: Int, result: T) {

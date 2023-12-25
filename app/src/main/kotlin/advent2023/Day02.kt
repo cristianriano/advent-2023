@@ -10,6 +10,10 @@ Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
 Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green
 
 If you add up the IDs of the games that would have been possible, you get 8.
+
+In each game you played, what is the fewest number of cubes of each color that could have been in the bag to make the game possible?
+The power of a set of cubes is equal to the numbers of red, green, and blue cubes multiplied together.
+The power of the minimum set of cubes in game 1 is 48. In games 2-5 it was 12, 1560, 630, and 36, respectively. Adding up these five powers produces the sum 2286.
  */
 class Day02(
   private val fileLoader: FileLoader = ResourceFileLoader(),
@@ -20,6 +24,20 @@ class Day02(
 
   fun possibleGamesSum(filePath: String): Int {
     return fileLoader.useLines(filePath) { processLine(it) }.sum()
+  }
+
+  fun powerOfMinCubes(filePath: String): Int {
+    return fileLoader.useLines(filePath) { powerOf(it) }.sum()
+  }
+
+  private fun powerOf(line: String): Int {
+    val draws = line.split(";")
+
+    val maxGreen = draws.maxOf { extractNum(it, GREEN_REGEX, 1) }
+    val maxRed = draws.maxOf { extractNum(it, RED_REGEX, 1) }
+    val maxBlue = draws.maxOf { extractNum(it, BLUE_REGEX, 1) }
+
+    return maxGreen * maxRed * maxBlue
   }
 
   private fun processLine(line: String): Int {
@@ -35,9 +53,9 @@ class Day02(
     return drawnBlue > maxBlue || drawnRed > maxRed || drawnGreen > maxGreen
   }
 
-  private fun extractNum(line: String, regex: Regex) = runCatching {
+  private fun extractNum(line: String, regex: Regex, default: Int = 0) = runCatching {
     regex.find(line)!!.groups.last()!!.value.toInt()
-  }.getOrElse { 0 }
+  }.getOrElse { default }
 
   private companion object {
     val GAME_REGEX = Regex("Game (\\d+):")
