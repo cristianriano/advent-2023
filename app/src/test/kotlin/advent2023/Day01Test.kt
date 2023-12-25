@@ -53,8 +53,8 @@ class Day01Test {
 
   @Test
   fun `when it has both spelled and no digits`() {
-    val calibrationSum = mockedDay01.getCalibrationSumWithSpells("awfiveninep")
-    assertThat(calibrationSum).isEqualTo(59)
+    val calibrationSum = mockedDay01.getCalibrationSumWithSpells("aweightthreep")
+    assertThat(calibrationSum).isEqualTo(83)
   }
 
   @Test
@@ -67,5 +67,11 @@ class Day01Test {
   fun `it calculates example with spells`() {
     val calibrationSum = instance.getCalibrationSumWithSpells("day01.2.example")
     assertThat(calibrationSum).isEqualTo(281)
+  }
+
+  @Test
+  fun `when spelling overlaps`() {
+    val calibrationSum = mockedDay01.getCalibrationSumWithSpells("oneight")
+    assertThat(calibrationSum).isEqualTo(18)
   }
 }

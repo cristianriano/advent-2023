@@ -32,13 +32,7 @@ class Day01(private val fileLoader: FileLoader = ResourceFileLoader()) {
   fun getCalibrationSum(calibrationPath: String) = fileLoader.useLines(calibrationPath) { calibrationValueOf(it) }.sum()
 
   fun getCalibrationSumWithSpells(calibrationPath: String) =
-      fileLoader.useLines(calibrationPath) {
-        try {
-          processLine(it)
-        } catch (e: RuntimeException) {
-          0
-        }
-      }.sum()
+      fileLoader.useLines(calibrationPath) { processLine(it) }.sum()
 
   private fun processLine(line: String) = when (val finds = SPELLED_DIGIT_REGEX.findAll(line).toList()) {
     emptyList<MatchResult>() -> calibrationValueOf(line)
@@ -50,18 +44,18 @@ class Day01(private val fileLoader: FileLoader = ResourceFileLoader()) {
     return (matches.first().value.toInt() * 10) + matches.last().value.toInt()
   }
 
-  private fun calibrationValueWithSpellsOf(finds: List<MatchResult>, line: String): Int {
+  private fun calibrationValueWithSpellsOf(spellMatches: List<MatchResult>, line: String): Int {
     val digitMatches = DIGIT_REGEX.findAll(line).toList()
 
     val tens = when {
-      digitMatches.isEmpty() -> finds.first().value.toSpelledDigit()
-      finds.first().range.first < digitMatches.first().range.first -> finds.first().value.toSpelledDigit()
+      digitMatches.isEmpty() -> spellMatches.first().groups.last()!!.value.toSpelledDigit()
+      spellMatches.first().range.first < digitMatches.first().range.first -> spellMatches.first().groups.last()!!.value.toSpelledDigit()
       else -> digitMatches.first().value.toInt()
     }
 
     val units = when {
-      digitMatches.isEmpty() -> finds.last().value.toSpelledDigit()
-      finds.last().range.last > digitMatches.last().range.last -> finds.last().value.toSpelledDigit()
+      digitMatches.isEmpty() -> spellMatches.last().groups.last()!!.value.toSpelledDigit()
+      spellMatches.last().range.last >= digitMatches.last().range.last -> spellMatches.last().groups.last()!!.value.toSpelledDigit()
       else -> digitMatches.last().value.toInt()
     }
 
@@ -82,7 +76,7 @@ class Day01(private val fileLoader: FileLoader = ResourceFileLoader()) {
   }
 
   private companion object {
-    val DIGIT_REGEX = Regex("\\d")
-    val SPELLED_DIGIT_REGEX = Regex("one|two|three|four|five|six|seven|eight|nine")
+    val DIGIT_REGEX = Regex("[1-9]")
+    val SPELLED_DIGIT_REGEX = Regex("(?=(one|two|three|four|five|six|seven|eight|nine))")
   }
 }
