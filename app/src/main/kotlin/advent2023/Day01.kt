@@ -31,33 +31,42 @@ class Day01(private val fileLoader: FileLoader = ResourceFileLoader()) {
 
   fun getCalibrationSum(calibrationPath: String) = fileLoader.useLines(calibrationPath) { calibrationValueOf(it) }.sum()
 
-  fun getCalibrationSumWithSpells(calibrationPath: String) : Int {
-    val line = fileLoader.readLines(calibrationPath).first()
+  fun getCalibrationSumWithSpells(calibrationPath: String) =
+      fileLoader.useLines(calibrationPath) {
+        try {
+          processLine(it)
+        } catch (e: RuntimeException) {
+          0
+        }
+      }.sum()
 
-    return when (val finds = SPELLED_DIGIT_REGEX.find(line)) {
-      null -> calibrationValueOf(line)
-      else -> calibrationValueWithSpellsOf(finds, line)
-    }
+  private fun processLine(line: String) = when (val finds = SPELLED_DIGIT_REGEX.findAll(line).toList()) {
+    emptyList<MatchResult>() -> calibrationValueOf(line)
+    else -> calibrationValueWithSpellsOf(finds, line)
   }
 
-  private fun calibrationValueOf(line: String) = (firstDigitMatch(line).value.toInt() * 10) + lastDigitMatch(line).value.toInt()
-
-  private fun calibrationValueWithSpellsOf(finds: MatchResult, line: String): Int {
-    val firstMatchGroup = finds.groups.first()!!
-    val firstDigitMatch = firstDigitMatch(line)
-
-    val units = if (firstMatchGroup.range.first < firstDigitMatch.range.first()) {
-      firstMatchGroup.value.toSpelledDigit()
-    } else {
-      firstDigitMatch.value.toInt()
-    }
-
-    return (units * 10) + lastDigitMatch(line).value.toInt()
+  private fun calibrationValueOf(line: String): Int {
+    val matches = DIGIT_REGEX.findAll(line).toList()
+    return (matches.first().value.toInt() * 10) + matches.last().value.toInt()
   }
 
-  private fun firstDigitMatch(line: String) = DIGIT_REGEX.find(line)!!.groups.first()!!
+  private fun calibrationValueWithSpellsOf(finds: List<MatchResult>, line: String): Int {
+    val digitMatches = DIGIT_REGEX.findAll(line).toList()
 
-  private fun lastDigitMatch(line: String) = DIGIT_REGEX.findAll(line).toList().last()
+    val tens = when {
+      digitMatches.isEmpty() -> finds.first().value.toSpelledDigit()
+      finds.first().range.first < digitMatches.first().range.first -> finds.first().value.toSpelledDigit()
+      else -> digitMatches.first().value.toInt()
+    }
+
+    val units = when {
+      digitMatches.isEmpty() -> finds.last().value.toSpelledDigit()
+      finds.last().range.last > digitMatches.last().range.last -> finds.last().value.toSpelledDigit()
+      else -> digitMatches.last().value.toInt()
+    }
+
+    return (tens * 10) + units
+  }
 
   private fun String.toSpelledDigit() = when(this) {
     "one" -> 1

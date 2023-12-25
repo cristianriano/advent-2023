@@ -38,4 +38,34 @@ class Day01Test {
     val calibrationSum = mockedDay01.getCalibrationSumWithSpells("65twosn91qxk")
     assertThat(calibrationSum).isEqualTo(61)
   }
+
+  @Test
+  fun `when it has a spelled number last`() {
+    val calibrationSum = mockedDay01.getCalibrationSumWithSpells("65twosn91four")
+    assertThat(calibrationSum).isEqualTo(64)
+  }
+
+  @Test
+  fun `when it has both spelled`() {
+    val calibrationSum = mockedDay01.getCalibrationSumWithSpells("awfive678ninep")
+    assertThat(calibrationSum).isEqualTo(59)
+  }
+
+  @Test
+  fun `when it has both spelled and no digits`() {
+    val calibrationSum = mockedDay01.getCalibrationSumWithSpells("awfiveninep")
+    assertThat(calibrationSum).isEqualTo(59)
+  }
+
+  @Test
+  fun `when it has only digits`() {
+    val calibrationSum = mockedDay01.getCalibrationSumWithSpells("43asdew")
+    assertThat(calibrationSum).isEqualTo(43)
+  }
+
+  @Test
+  fun `it calculates example with spells`() {
+    val calibrationSum = instance.getCalibrationSumWithSpells("day01.2.example")
+    assertThat(calibrationSum).isEqualTo(281)
+  }
 }
