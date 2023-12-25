@@ -21,16 +21,24 @@ class Day02(
   fun possibleGamesSum(filePath: String): Int {
     val line = filePath
 
-    val drawnBlue = BLUE_REGEX.find(line)!!.groups.last()!!.value.toInt()
+    val drawnBlue = extractNum(line, BLUE_REGEX)
+    val drawnRed = extractNum(line, RED_REGEX)
 
-    return if (drawnBlue > maxBlue) {
+    return if (drawnBlue > maxBlue || drawnRed > maxRed) {
       0
     } else {
-      1
+      extractNum(line, GAME_REGEX)
     }
   }
 
+  private fun extractNum(line: String, regex: Regex) = runCatching {
+    regex.find(line)!!.groups.last()!!.value.toInt()
+  }.getOrElse { 0 }
+
   private companion object {
+    val GAME_REGEX = Regex("Game (\\d)+:")
+
     val BLUE_REGEX = Regex("(\\d) blue")
+    val RED_REGEX = Regex("(\\d) red")
   }
 }

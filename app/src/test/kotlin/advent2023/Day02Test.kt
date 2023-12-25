@@ -13,4 +13,16 @@ class Day02Test {
     val expectedSum = mockedDay.possibleGamesSum("Game 1: 2 blue")
     assertThat(expectedSum).isEqualTo(0)
   }
+
+  @Test
+  fun `it doesn't count impossible game with a single draw of red`() {
+    val expectedSum = mockedDay.possibleGamesSum("Game 1: 2 red")
+    assertThat(expectedSum).isEqualTo(0)
+  }
+
+  @Test
+  fun `it returns game num for valid game with all colors`() {
+    val expectedSum = mockedDay.possibleGamesSum("Game 3: 1 red, 1 green, 1 blue")
+    assertThat(expectedSum).isEqualTo(3)
+  }
 }
