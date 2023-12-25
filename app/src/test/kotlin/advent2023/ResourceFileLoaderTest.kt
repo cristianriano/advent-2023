@@ -3,11 +3,13 @@ package advent2023
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class FileLoaderTest {
+class ResourceFileLoaderTest {
+
+  private val fileLoader = ResourceFileLoader()
 
   @Test
   fun `it returns doc text`() {
-    val result = FileLoader.readAsString(FILE_NAME)
+    val result = fileLoader.readAsString(FILE_NAME)
 
     val expected = """
       1abc2
@@ -21,7 +23,7 @@ class FileLoaderTest {
 
   @Test
   fun `it operates on each line`() {
-    val results = FileLoader.readLines(FILE_NAME) { it.first() }
+    val results = fileLoader.useLines(FILE_NAME) { it.first() }
 
     assertThat(results).containsExactly(
         '1', 'p', 'a', 't'

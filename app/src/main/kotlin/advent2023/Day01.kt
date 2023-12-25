@@ -13,13 +13,23 @@ In this example, the calibration values of these four lines are 12, 38, 15, and 
 
 Consider your entire calibration document. What is the sum of all the calibration values?
  */
-class Day01(private val calibrationPath: String) {
+class Day01(private val fileLoader: FileLoader = ResourceFileLoader()) {
 
-  fun getCalibrationSum() = FileLoader.readLines(calibrationPath) { calibrationValueOf(it) }.sum()
+  fun getCalibrationSum(calibrationPath: String) = fileLoader.useLines(calibrationPath) { calibrationValueOf(it) }.sum()
+
+  fun getFixedSum(calibrationPath: String) : Int {
+    val line = fileLoader.readLines(calibrationPath).first()
+
+    TODO()
+  }
 
   private fun calibrationValueOf(line: String): Int {
     val tens = line.first { it.isDigit() }.digitToInt()
     val units = line.last { it.isDigit() }.digitToInt()
     return (tens * 10) + units
+  }
+
+  private companion object {
+    val SPELLED_DIGIT_REGEX = Regex("one|two|three|four|five|six|seven|eight|nine")
   }
 }

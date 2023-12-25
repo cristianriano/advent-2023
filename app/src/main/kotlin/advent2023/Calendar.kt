@@ -2,7 +2,8 @@ package advent2023
 
 class Calendar {
   fun run() {
-    printDay(1, Day01("day01").getCalibrationSum())
+    val day01 = Day01()
+    printDay(1, day01.getCalibrationSum("day01"))
   }
 
   private fun <T> printDay(day: Int, result: T) {

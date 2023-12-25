@@ -1,25 +1,29 @@
 package advent2023
 
+import advent2023.support.TestFileLoader
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class Day01Test {
 
+  private val mockedDay01 = Day01(TestFileLoader())
+  private val instance = Day01()
+
   @Test
-  fun `returns cero for empty`() {
-    val calibrationSum = Day01("empty.example").getCalibrationSum()
+  fun `returns zero for empty`() {
+    val calibrationSum = mockedDay01.getCalibrationSum("")
     assertThat(calibrationSum).isEqualTo(0)
   }
 
   @Test
-  fun `returns 12 for oneLiner`() {
-    val calibrationSum = Day01("oneLine.example").getCalibrationSum()
-    assertThat(calibrationSum).isEqualTo(12)
+  fun `returns 61 for oneLiner`() {
+    val calibrationSum = mockedDay01.getCalibrationSum("aw611")
+    assertThat(calibrationSum).isEqualTo(61)
   }
 
   @Test
   fun `returns value of example`() {
-    val calibrationSum = Day01("day01.example").getCalibrationSum()
+    val calibrationSum = instance.getCalibrationSum("day01.example")
     assertThat(calibrationSum).isEqualTo(142)
   }
 }
