@@ -19,7 +19,10 @@ class Day02(
 ) {
 
   fun possibleGamesSum(filePath: String): Int {
-    val line = filePath
+    return fileLoader.useLines(filePath) { processLine(it) }.sum()
+  }
+
+  private fun processLine(line: String): Int {
     val isInvalidGame = line.split(";").any { isInvalidDraw(it) }
     return if (isInvalidGame) 0 else extractNum(line, GAME_REGEX)
   }
@@ -37,10 +40,10 @@ class Day02(
   }.getOrElse { 0 }
 
   private companion object {
-    val GAME_REGEX = Regex("Game (\\d)+:")
+    val GAME_REGEX = Regex("Game (\\d+):")
 
-    val BLUE_REGEX = Regex("(\\d) blue")
-    val RED_REGEX = Regex("(\\d) red")
-    val GREEN_REGEX = Regex("(\\d) green")
+    val BLUE_REGEX = Regex("(\\d+) blue")
+    val RED_REGEX = Regex("(\\d+) red")
+    val GREEN_REGEX = Regex("(\\d+) green")
   }
 }

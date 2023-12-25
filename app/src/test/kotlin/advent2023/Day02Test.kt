@@ -28,13 +28,19 @@ class Day02Test {
 
   @Test
   fun `it returns game num for valid game with all colors`() {
-    val expectedSum = mockedDay.possibleGamesSum("Game 3: 1 red, 1 green, 1 blue")
-    assertThat(expectedSum).isEqualTo(3)
+    val expectedSum = mockedDay.possibleGamesSum("Game 10: 1 red, 1 green, 1 blue")
+    assertThat(expectedSum).isEqualTo(10)
   }
 
   @Test
   fun `it checks multiple draws of the same game`() {
     val expectedSum = mockedDay.possibleGamesSum("Game 1: 1 blue; 1 red; 1 green; 2 blue")
     assertThat(expectedSum).isEqualTo(0)
+  }
+
+  @Test
+  fun `it returns 8 for example`() {
+    val expectedSum = Day02().possibleGamesSum("day02.example")
+    assertThat(expectedSum).isEqualTo(8)
   }
 }
