@@ -31,7 +31,7 @@ java {
 }
 
 application {
-  mainClass.set("advent.AppKt")
+  mainClass.set("advent2023.CalendarKt")
 }
 
 tasks.named<Test>("test") {
